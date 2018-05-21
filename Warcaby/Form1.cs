@@ -16,5 +16,35 @@ namespace Warcaby
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button33_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button64_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
