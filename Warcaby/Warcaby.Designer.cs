@@ -1,6 +1,6 @@
 ﻿namespace Warcaby
 {
-    partial class Form1
+    partial class Warcaby
     {
         /// <summary>
         /// Wymagana zmienna projektanta.
@@ -93,6 +93,7 @@
             this.button63 = new System.Windows.Forms.Button();
             this.button64 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button65 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -150,6 +151,7 @@
             this.button6.Size = new System.Drawing.Size(50, 50);
             this.button6.TabIndex = 5;
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button7
             // 
@@ -459,6 +461,7 @@
             this.button40.Size = new System.Drawing.Size(50, 50);
             this.button40.TabIndex = 58;
             this.button40.UseVisualStyleBackColor = false;
+            this.button40.Click += new System.EventHandler(this.button40_Click);
             // 
             // button41
             // 
@@ -549,6 +552,7 @@
             this.button50.Size = new System.Drawing.Size(50, 50);
             this.button50.TabIndex = 48;
             this.button50.UseVisualStyleBackColor = false;
+            this.button50.Click += new System.EventHandler(this.button50_Click);
             // 
             // button51
             // 
@@ -621,6 +625,7 @@
             this.button58.Size = new System.Drawing.Size(50, 50);
             this.button58.TabIndex = 40;
             this.button58.UseVisualStyleBackColor = false;
+            this.button58.Click += new System.EventHandler(this.button58_Click);
             // 
             // button59
             // 
@@ -648,6 +653,7 @@
             this.button61.Size = new System.Drawing.Size(50, 50);
             this.button61.TabIndex = 37;
             this.button61.UseVisualStyleBackColor = false;
+            this.button61.Click += new System.EventHandler(this.button61_Click);
             // 
             // button62
             // 
@@ -686,11 +692,22 @@
             this.pictureBox1.TabIndex = 66;
             this.pictureBox1.TabStop = false;
             // 
-            // Form1
+            // button65
+            // 
+            this.button65.Location = new System.Drawing.Point(548, 30);
+            this.button65.Name = "button65";
+            this.button65.Size = new System.Drawing.Size(128, 43);
+            this.button65.TabIndex = 67;
+            this.button65.Text = "button65";
+            this.button65.UseVisualStyleBackColor = true;
+            this.button65.Click += new System.EventHandler(this.button65_Click);
+            // 
+            // Warcaby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 641);
+            this.Controls.Add(this.button65);
             this.Controls.Add(this.button33);
             this.Controls.Add(this.button34);
             this.Controls.Add(this.button35);
@@ -756,7 +773,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Form1";
+            this.Name = "Warcaby";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -831,6 +848,7 @@
         private System.Windows.Forms.Button button63;
         private System.Windows.Forms.Button button64;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button65;
     }
 }
 
