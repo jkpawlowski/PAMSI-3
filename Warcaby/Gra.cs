@@ -223,33 +223,7 @@ namespace Warcaby
                     }
             if (w.god)
             {
-                //poziomo
-                if (w.w == c.w) {
-                    if (c.r > w.r) {
-                        for (int i = w.r+1; i <= c.r; i++)
-                            if (plansza[w.w][i].zajete) return false;
-                    }
-                    else
-                    {
-                        for (int i = w.r-1; i >= c.r; i--)
-                            if (plansza[w.w][i].zajete) return false;
-                    }
-                    return true;
-                }
-                //pionowo
-                if (w.r == c.r) {
-                    if (c.w > w.w)
-                    {
-                        for (int i = w.w+1; i <= c.w; i++)
-                            if (plansza[i][w.r].zajete) return false;
-                    }
-                    else
-                    {
-                        for (int i = w.w-1; i >= c.w; i--)
-                            if (plansza[i][w.r].zajete) return false;
-                    }
-                    return true;
-                }
+                
                 //ukos
                 int opt=0;
                 int bicie = 0;
