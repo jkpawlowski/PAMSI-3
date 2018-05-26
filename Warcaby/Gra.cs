@@ -18,7 +18,8 @@ namespace Warcaby
         class Gra
         {
             public int kolej;//nr gracza ktory ma wykonac ruch
-            
+            public bool seria;    
+
 
             public pole[][] plansza;
 
@@ -26,7 +27,7 @@ namespace Warcaby
             private Pionek[][] pionki;
         
             //************************
-            void WczytajPlansze()
+        void WczytajPlansze()
             { ///////pusta  plansza//////////
                 plansza = new pole[8][];
 
@@ -52,7 +53,7 @@ namespace Warcaby
 
 
             }
-            void UstawPionki()
+        void UstawPionki()
             {
                 pionki = new Pionek[2][];
 
@@ -93,12 +94,13 @@ namespace Warcaby
 
 
             }
-            public Gra()
+        public Gra()
             {
             UstawPionki();
             WczytajPlansze();
 
             kolej = 0;
+            seria = false;
                 
             }
 
@@ -109,32 +111,87 @@ namespace Warcaby
         
         
         }
-        bool Wolny(Pionek p) //czy nie musi niczego bić
+         public   bool Wolny(Pionek p) //czy nie musi niczego bić
         {
-            if((p.w >= 2) && (p.r >= 2))
-                if (plansza[p.w - 1][p.r - 1].zajete)
-                    if (plansza[p.w - 1][p.r - 1].gracz != p.gracz)
-                    if (!plansza[p.w - 2][p.r - 2].zajete)
-                        return false;
-            
-            if ((p.w >= 2) && (p.r <= 5))
-                if (plansza[p.w - 1][p.r + 1].zajete)
-                    if (plansza[p.w - 1][p.r + 1].gracz != p.gracz)
-                    if (!plansza[p.w - 2][p.r + 2].zajete)
-                        return false;
-            
-            if ((p.w <= 5) && (p.r >= 2))
-                if (plansza[p.w + 1][p.r - 1].zajete)
-                    if (plansza[p.w + 1][p.r - 1].gracz != p.gracz)
-                    if (!plansza[p.w + 2][p.r - 2].zajete)
-                        return false;
 
-            if ((p.w <= 5) && (p.r <= 5))
-                if (plansza[p.w + 1][p.r + 1].zajete)
-                    if (plansza[p.w + 1][p.r + 1].gracz != p.gracz)
-                    if (!plansza[p.w + 2][p.r + 2].zajete)
-                        return false;
+            bool opt1,opt2,opt3,opt4;
+            opt1 = true;
+            opt2 = true;
+            opt3 = true;
+            opt4 = true;
 
+            if (!p.god)
+            {
+                if ((p.w >= 2) && (p.r >= 2))
+                    if (plansza[p.w - 1][p.r - 1].zajete)
+                        if (plansza[p.w - 1][p.r - 1].gracz != p.gracz)
+                            if (!plansza[p.w - 2][p.r - 2].zajete)
+                                return false;
+
+                if ((p.w >= 2) && (p.r <= 5))
+                    if (plansza[p.w - 1][p.r + 1].zajete)
+                        if (plansza[p.w - 1][p.r + 1].gracz != p.gracz)
+                            if (!plansza[p.w - 2][p.r + 2].zajete)
+                                return false;
+
+                if ((p.w <= 5) && (p.r >= 2))
+                    if (plansza[p.w + 1][p.r - 1].zajete)
+                        if (plansza[p.w + 1][p.r - 1].gracz != p.gracz)
+                            if (!plansza[p.w + 2][p.r - 2].zajete)
+                                return false;
+
+                if ((p.w <= 5) && (p.r <= 5))
+                    if (plansza[p.w + 1][p.r + 1].zajete)
+                        if (plansza[p.w + 1][p.r + 1].gracz != p.gracz)
+                            if (!plansza[p.w + 2][p.r + 2].zajete)
+                                return false;
+            }
+            if (p.god)
+                for (int i=0;i<=7;i++)
+                {
+
+                    if ((p.w - i >= 2) && (p.r - i >= 2) && opt1)
+                        if ((!plansza[p.w - i][p.r - i].zajete) || (plansza[p.w - i][p.r - i].gracz == p.gracz))
+                        if (plansza[p.w - i - 1][p.r - i - 1].zajete)
+                        if (plansza[p.w - i - 1][p.r - i - 1].gracz != p.gracz)
+                                {
+                                    if (!plansza[p.w - i - 2][p.r - i - 2].zajete)
+                                        return false;
+                                }
+                                else opt1 = false;
+
+                    if ((p.w - i >= 2) && (p.r + i <= 5) && opt2)
+                        if ((!plansza[p.w - i][p.r + i].zajete) || (plansza[p.w - i][p.r + i].gracz == p.gracz))
+                            if (plansza[p.w - i - 1][p.r + i + 1].zajete)
+                                if (plansza[p.w - i - 1][p.r + i + 1].gracz != p.gracz)
+                                {
+                                    if (!plansza[p.w - i - 2][p.r + i + 2].zajete)
+                                        return false;
+                                }
+                                else opt2 = false;
+
+
+                    if ((p.w + i <= 5) && (p.r - i >= 2) && opt3)
+                        if ((!plansza[p.w + i][p.r - i].zajete) || (plansza[p.w + i][p.r - i].gracz == p.gracz))
+                            if (plansza[p.w + i + 1][p.r - i - 1].zajete)
+                                if (plansza[p.w + i + 1][p.r - i - 1].gracz != p.gracz)
+                                {
+                                    if (!plansza[p.w + i + 2][p.r - i - 2].zajete)
+                                        return false;
+                                }
+                                else opt3 = false;
+
+                    if ((p.w + i <= 5) && (p.r + i <= 5) && opt4)
+                        if ((!plansza[p.w + i][p.r + i].zajete) || (plansza[p.w + i][p.r + i].gracz == p.gracz))
+                            if (plansza[p.w + i + 1][p.r + i + 1].zajete)
+                                if (plansza[p.w + i + 1][p.r + i + 1].gracz != p.gracz)
+                                {
+                                    if (!plansza[p.w + i + 2][p.r + i + 2].zajete)
+                                        return false;
+                                }
+                                else opt4 = false;
+
+                }
 
         
             return true;
@@ -160,10 +217,71 @@ namespace Warcaby
                 if (Math.Abs(w.r - c.r) == 2)
                     if (plansza[(w.w + c.w) / 2][(w.r + c.r) / 2].gracz != kolej)//sprawdza czy zjadzie bicie
                     {
-                        Bij((w.w + c.w) / 2, (w.r + c.r) / 2);
 
+                        Bij((w.w + c.w) / 2, (w.r + c.r) / 2);
                         return true;
                     }
+            if (w.god)
+            {
+                //poziomo
+                if (w.w == c.w) {
+                    if (c.r > w.r) {
+                        for (int i = w.r+1; i <= c.r; i++)
+                            if (plansza[w.w][i].zajete) return false;
+                    }
+                    else
+                    {
+                        for (int i = w.r-1; i >= c.r; i--)
+                            if (plansza[w.w][i].zajete) return false;
+                    }
+                    return true;
+                }
+                //pionowo
+                if (w.r == c.r) {
+                    if (c.w > w.w)
+                    {
+                        for (int i = w.w+1; i <= c.w; i++)
+                            if (plansza[i][w.r].zajete) return false;
+                    }
+                    else
+                    {
+                        for (int i = w.w-1; i >= c.w; i--)
+                            if (plansza[i][w.r].zajete) return false;
+                    }
+                    return true;
+                }
+                //ukos
+                int opt=0;
+                int bicie = 0;
+
+                //znajduje rodzaj ukosu
+                for (int i = 1; i <= Math.Abs(w.w - c.w); i++) {
+                    if ((w.w + i == c.w) && (w.r + i == c.r)) opt=1;
+                    if ((w.w + i == c.w) && (w.r - i == c.r)) opt=2;
+                    if ((w.w - i == c.w) && (w.r + i == c.r)) opt=3;
+                    if ((w.w - i == c.w) && (w.r - i == c.r)) opt=4;
+                }
+                if (opt == 0) return false;
+
+                //czy nie ma swojego pionka na trasie i jedno bicie
+                for (int i = 1; i <= Math.Abs(w.w - c.w); i++) {
+                    if (opt == 1) if (plansza[w.w + i][w.r + i].zajete)
+                            if (plansza[w.w + i][w.r + i].gracz != w.gracz) { bicie++; if (bicie > 1) return false; }
+                            else return false;
+                    if (opt == 2) if (plansza[w.w + i][w.r - i].zajete)
+                            if (plansza[w.w + i][w.r - i].gracz != w.gracz) { bicie++; if (bicie > 1) return false; }
+                            else return false;
+                    if (opt == 3) if (plansza[w.w - i][w.r + i].zajete)
+                            if (plansza[w.w - i][w.r + i].gracz != w.gracz) { bicie++; if (bicie > 1) return false; }
+                            else return false;
+                    if (opt == 4) if (plansza[w.w - i][w.r - i].zajete)
+                            if (plansza[w.w - i][w.r - i].gracz != w.gracz) { bicie++; if (bicie > 1) return false; }
+                            else return false;
+
+                }
+
+                return true;
+            }
             return false;
         }
         bool DoPrzodu(Pionek w,Pionek c)
@@ -176,6 +294,7 @@ namespace Warcaby
         }
         public bool Ruch(Pionek wybor,Pionek cel)
         {
+            
             ///////////////////////////////////////////////////////////
             if (plansza[cel.w][cel.r].zajete)//pole cel juz jest zajete
                 return false;
@@ -184,26 +303,58 @@ namespace Warcaby
             {
                 if (plansza[wybor.w][wybor.r].gracz == kolej) //sprawdzenie czy moze wykonac ruch
                 {
-                    
-                        if (Moze(wybor, cel))                
+
+                    if (Moze(wybor, cel))
                         if (Wolny(wybor))
                         {
-                            if(DoPrzodu(wybor,cel))
-                            if (Przesun(wybor, cel))
-                            {
-                                PrzKolej(); //koniec ruchu jezeli nie ma mozliwosci bicia
-                                return true;
-                            }
+                            if (DoPrzodu(wybor, cel))
+                                if (Przesun(wybor, cel))
+                                {
+                                    PrzKolej(); //koniec ruchu jezeli nie ma mozliwosci bicia
+                                    seria = false;
+                                    return true;
+                                }
                         }
                         else
                         {
-                            if (plansza[(wybor.w + cel.w) / 2][(wybor.r + cel.r) / 2].zajete==true)
-                            if (plansza[(wybor.w + cel.w) / 2][(wybor.r + cel.r) / 2].gracz!=wybor.gracz)
-                                if (Przesun(wybor, cel))
+                            if (!wybor.god)
                             {
-                                if (Wolny(cel)) PrzKolej(); //koniec ruchu jezeli nie ma mozliwosci bicia
+                                if (plansza[(wybor.w + cel.w) / 2][(wybor.r + cel.r) / 2].zajete == true)
+                                    if (plansza[(wybor.w + cel.w) / 2][(wybor.r + cel.r) / 2].gracz != wybor.gracz)
+                                        if (Przesun(wybor, cel))
+                                        {
+                                            wybor.w = cel.w;
+                                            wybor.r = cel.r;
+                                            if (Wolny(wybor))
+                                            {
+                                                PrzKolej(); //koniec ruchu jezeli nie ma mozliwosci bicia
+                                                seria = false;
+                                            }
+                                            else
+                                                seria = true;
+
+
+                                            return true;
+                                        }
+                            }
+                            else
+
+                            if (Przesun(wybor, cel))
+                            {
+                                wybor.w = cel.w;
+                                wybor.r = cel.r;
+                                if (Wolny(wybor))
+                                {
+                                    PrzKolej(); //koniec ruchu jezeli nie ma mozliwosci bicia
+                                    seria = false;
+                                }
+                                else
+                                    seria = true;
+
                                 return true;
                             }
+
+
                         }
                     
                     
@@ -224,12 +375,82 @@ namespace Warcaby
         {
            
 
-            for (int i = 0; i <= 11; i++)
+            for (int j = 0; j <= 11; j++)
             {
-                if ((pionki[wybor.gracz][i].aktywny) && (wybor.r == pionki[wybor.gracz][i].r) && (wybor.w == pionki[wybor.gracz][i].w))
+                if ((pionki[wybor.gracz][j].aktywny) && (wybor.r == pionki[wybor.gracz][j].r) && (wybor.w == pionki[wybor.gracz][j].w))
                 {
-                    pionki[wybor.gracz][i].UstPoz(cel.w, cel.r);
-                    Awans(pionki[wybor.gracz][i]);
+
+                    if (wybor.god)
+                    {
+                        Pionek w = wybor;
+                        Pionek c = cel;
+                        Pionek bicie;
+
+                        
+                            bicie = new Pionek(1);
+                        
+
+                        if (!((w.r == c.r) || (w.w == c.w)))
+
+                        {
+
+                            int opt = 0;
+                            //znajduje rodzaj ukosu
+                            for (int i = 1; i <= 7; i++)
+                            {
+                                if ((w.w + i == c.w) && (w.r + i == c.r)) opt = 1;
+                                if ((w.w + i == c.w) && (w.r - i == c.r)) opt = 2;
+                                if ((w.w - i == c.w) && (w.r + i == c.r)) opt = 3;
+                                if ((w.w - i == c.w) && (w.r - i == c.r)) opt = 4;
+                            }
+                            if (opt == 0) return false;
+
+                            //czy nie ma swojego pionka na trasie i jedno bicie
+                            int bic = 0;
+                            for (int i = 1; i <= Math.Abs(w.w - c.w); i++)
+                            {
+                                if (opt == 1) if (plansza[w.w + i][w.r + i].zajete)
+                                        if (plansza[w.w + i][w.r + i].gracz != w.gracz)
+                                            if (bic < 1)
+                                            {
+                                                bicie.UstPoz(w.w + i, w.r + i);
+                                                bic++;
+                                            }
+
+                                if (opt == 2) if (plansza[w.w + i][w.r - i].zajete)
+                                        if (plansza[w.w + i][w.r - i].gracz != w.gracz)
+                                            if (bic < 1)
+                                            {
+                                                bicie.UstPoz(w.w + i, w.r - i);
+                                                bic++;
+                                            }
+
+                                if (opt == 3) if (plansza[w.w - i][w.r + i].zajete)
+                                        if (plansza[w.w - i][w.r + i].gracz != w.gracz)
+                                            if (bic < 1)
+                                            {
+                                                bicie.UstPoz(w.w - i, w.r + i);
+                                                bic++;
+                                            }
+                                if (opt == 4) if (plansza[w.w - i][w.r - i].zajete)
+                                        if (plansza[w.w - i][w.r - i].gracz != w.gracz)
+                                            if (bic < 1)
+                                            {
+                                                bicie.UstPoz(w.w - i, w.r - i);
+                                                bic++;
+                                            }
+
+                            }
+                            if (!Wolny(w)) if (bic != 1) return false;
+                            if (Wolny(w)) if (bic != 0) return false;
+                            Bij(bicie.w, bicie.r);
+                        }
+                        else if (!Wolny(wybor)) return false;
+                    }
+
+                    pionki[wybor.gracz][j].UstPoz(cel.w, cel.r);
+                    Awans(pionki[wybor.gracz][j]);
+                   
                     WczytajPlansze();
                     return true;
                 }
@@ -241,9 +462,14 @@ namespace Warcaby
         {
             if (!p.god)
                 if (Wolny(p))
-                    if (p.gracz == 0) { if (p.w == 7) p.god = true;
+                    if (p.gracz == 0)
+                    {
+                        if (p.w == 7)
+                            p.god = true;
                     }
-                    else if (p.gracz == 1) if (p.w == 0) p.god = true;
+
+                    else if (p.w == 0)
+                        p.god = true;
             return false;
         }
         }

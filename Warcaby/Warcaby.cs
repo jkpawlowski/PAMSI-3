@@ -18,7 +18,7 @@ namespace Warcaby
         bool trwa;
         bool wybrano;
         Pionek wybor;//ruszany pionek   
-        Pionek cel; //cel dla pionka
+        Pionek w,c; //cel dla pionka
         
         void OdsPlansze()
         {
@@ -178,23 +178,66 @@ namespace Warcaby
             UstawPionki();
     
         }
-        void CelWyb()    
+        void Cel()    
         {
-            cel.gracz = gra.plansza[cel.w][cel.r].gracz;
-            wybor.gracz = gra.plansza[wybor.w][wybor.r].gracz;
 
+            c.w = wybor.w;
+            c.r = wybor.r;
+            c.gracz = gra.plansza[wybor.w][wybor.r].gracz;
+            c.god = gra.plansza[wybor.w][wybor.r].krolowa;
+
+        }
+        void Wyb()
+        {
+            w.w = wybor.w;
+            w.r = wybor.r;
+            w.gracz = gra.plansza[wybor.w][wybor.r].gracz;
+            w.god = gra.plansza[wybor.w][wybor.r].krolowa;
+        }
+        void InfoWyb()
+        {
+            label4.Text = "";
+            wybor.gracz = gra.plansza[wybor.w][wybor.r].gracz;
+            if (gra.plansza[wybor.w][wybor.r].zajete)
+                if (gra.Wolny(wybor)) label4.Text += "wolny";
+                else label4.Text += "bij";
+           
         }
         void ObslugaPlanszy(int opt=0)
         {
+            
             if ((opt == 0)&&(trwa))
             {
-                CelWyb();
+
+
+
+                if ((gra.plansza[wybor.w][wybor.r].zajete)&& (!gra.seria))
+                {   
+                    wybrano = true;
+                    Wyb();
+                    InfoWyb();
+                }
+                else { 
+                    InfoWyb();
                 if (wybrano)
                 {
+                    Cel();
 
-                    gra.Ruch(wybor, cel);
+                    if (gra.Ruch(w, c))
+                        if (gra.seria)
+                        {
+                            w.r = c.r;
+                            w.w = c.w;
+                        }
+
+
+                    if (gra.seria)
+                        wybrano = true;
+                    else
+                        wybrano = false;
+
                     OdsPlansze();
-                    wybrano = false;
+
                     if (gra.kolej == 0)
                     {
                         label3.Text = "Twoja kolej";
@@ -205,15 +248,12 @@ namespace Warcaby
                         label2.Text = "Twoja kolej";
                         label3.Text = "Czekaj";
                     }
-                }
-                else if(gra.plansza[wybor.w][wybor.r].zajete)
-                    wybrano = true;
+                }}
+                
             }
             if (opt == 2)//wznownienie
             {
                 wybrano = false;
-
-
             }
             if (opt == 3)//zatrzymanie
             {
@@ -238,25 +278,31 @@ namespace Warcaby
         public Warcaby()
         {
             InitializeComponent();
-            pionek1=Image.FromFile("graphics/pionek1.png"); 
-            pionek2 =Image.FromFile("graphics/pionek2.png");
-            krolowa1 = Image.FromFile("graphics/krolowa1.png");
-            krolowa2 = Image.FromFile("graphics/krolowa2.png");
+            pionek1=Image.FromFile("graphics/p1.png"); 
+            pionek2 =Image.FromFile("graphics/p2.png");
+            krolowa1 = Image.FromFile("graphics/k1.png");
+            krolowa2 = Image.FromFile("graphics/k2.png");
+
+           
 
             gra = new Gra();
             OdsPlansze();
             wybor = new Pionek(0);
-            cel = new Pionek(0);
+            c = new Pionek(0);
+            w = new Pionek(0);
             wybrano = false;
             label3.Text = "Twoja kolej";
-            label2.Text = "Czekaj";  
+            label2.Text = "Czekaj";
+            label4.Text = "";
+           
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 0);
-            else wybor.UstPoz(7, 0);
-            ObslugaPlanszy();
+            
+           wybor.UstPoz(7, 0); ObslugaPlanszy();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -266,50 +312,50 @@ namespace Warcaby
 
         private void button21_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 4);
-            else wybor.UstPoz(5, 4); ObslugaPlanszy();
+           
+            wybor.UstPoz(5, 4); ObslugaPlanszy();
         }
 
         private void button32_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 7);
-            else wybor.UstPoz(4, 7); ObslugaPlanszy();
+           
+           wybor.UstPoz(4, 7); ObslugaPlanszy();
         }
 
         private void button33_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 7);
-            else wybor.UstPoz(0, 7); ObslugaPlanszy();
+           
+           wybor.UstPoz(0, 7); ObslugaPlanszy();
         }
 
         private void button64_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 0);
-            else wybor.UstPoz(3, 0); ObslugaPlanszy();
+            
+           wybor.UstPoz(3, 0); ObslugaPlanszy();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 5);
-            else wybor.UstPoz(7, 5); ObslugaPlanszy();
+           
+          wybor.UstPoz(7, 5); ObslugaPlanszy();
         }
 
         private void button61_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 3);
-            else wybor.UstPoz(3, 3); ObslugaPlanszy();
+            
+             wybor.UstPoz(3, 3); ObslugaPlanszy();
         }
 
         private void button50_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 2);
-            else wybor.UstPoz(2, 2); ObslugaPlanszy();
+            
+           wybor.UstPoz(2, 2); ObslugaPlanszy();
         }
 
         private void button40_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 0);
-            else wybor.UstPoz(0, 0); ObslugaPlanszy();
+           
+           wybor.UstPoz(0, 0); ObslugaPlanszy();
         }
 
         private void button65_Click(object sender, EventArgs e)
@@ -345,331 +391,319 @@ namespace Warcaby
 
         private void label1_Click(object sender, EventArgs e)
         {
-            ObslugaPlanszy();
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 1);
-            else wybor.UstPoz(7, 1); ObslugaPlanszy();
+            
+           wybor.UstPoz(7, 1); ObslugaPlanszy();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 2);
-            else wybor.UstPoz(7, 2); ObslugaPlanszy();
+           
+            wybor.UstPoz(7, 2); ObslugaPlanszy();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 3);
-            else wybor.UstPoz(7, 3); ObslugaPlanszy();
+            wybor.UstPoz(7, 3); ObslugaPlanszy();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 4);
-            else wybor.UstPoz(7, 4); ObslugaPlanszy();
+             wybor.UstPoz(7, 4); ObslugaPlanszy();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 6);
-            else wybor.UstPoz(7, 6); ObslugaPlanszy();
+             wybor.UstPoz(7, 6); ObslugaPlanszy();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(7, 7);
-            else wybor.UstPoz(7, 7); ObslugaPlanszy();
+           wybor.UstPoz(7, 7); ObslugaPlanszy();
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 0);
-            else wybor.UstPoz(6, 0); ObslugaPlanszy();
+            wybor.UstPoz(6, 0); ObslugaPlanszy();
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 1);
-            else wybor.UstPoz(6, 1); ObslugaPlanszy();
+           wybor.UstPoz(6, 1); ObslugaPlanszy();
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 2);
-            else wybor.UstPoz(6, 2); ObslugaPlanszy();
+           wybor.UstPoz(6, 2); ObslugaPlanszy();
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 3);
-            else wybor.UstPoz(6, 3); ObslugaPlanszy();
+           wybor.UstPoz(6, 3); ObslugaPlanszy();
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 4);
-            else wybor.UstPoz(6, 4); ObslugaPlanszy();
+           wybor.UstPoz(6, 4); ObslugaPlanszy();
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 5);
-            else wybor.UstPoz(6, 5); ObslugaPlanszy();
+          wybor.UstPoz(6, 5); ObslugaPlanszy();
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 6);
-            else wybor.UstPoz(6, 6); ObslugaPlanszy();
+            wybor.UstPoz(6, 6); ObslugaPlanszy();
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(6, 7);
-            else wybor.UstPoz(6, 7); ObslugaPlanszy();
+             wybor.UstPoz(6, 7); ObslugaPlanszy();
         }
 
         private void button17_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 0);
-            else wybor.UstPoz(5, 0); ObslugaPlanszy();
+           wybor.UstPoz(5, 0); ObslugaPlanszy();
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 1);
-            else wybor.UstPoz(5, 1); ObslugaPlanszy();
+             wybor.UstPoz(5, 1); ObslugaPlanszy();
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 2);
-            else wybor.UstPoz(5, 2); ObslugaPlanszy();
+             wybor.UstPoz(5, 2); ObslugaPlanszy();
         }
 
         private void button20_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 3);
-            else wybor.UstPoz(5, 3); ObslugaPlanszy();
+            wybor.UstPoz(5, 3); ObslugaPlanszy();
         }
 
         private void button22_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 5);
-            else wybor.UstPoz(5, 5); ObslugaPlanszy();
+           
+            wybor.UstPoz(5, 5); ObslugaPlanszy();
         }
 
         private void button23_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 6);
-            else wybor.UstPoz(5, 6); ObslugaPlanszy();
+           
+            wybor.UstPoz(5, 6); ObslugaPlanszy();
         }
 
         private void button24_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(5, 7);
-            else wybor.UstPoz(5, 7); ObslugaPlanszy();
+          
+             wybor.UstPoz(5, 7); ObslugaPlanszy();
         }
 
         private void button25_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 0);
-            else wybor.UstPoz(4, 0); ObslugaPlanszy();
+           
+            wybor.UstPoz(4, 0); ObslugaPlanszy();
         }
 
         private void button26_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 1);
-            else wybor.UstPoz(4, 1); ObslugaPlanszy();
+           
+            wybor.UstPoz(4, 1); ObslugaPlanszy();
         }
 
         private void button27_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 2);
-            else wybor.UstPoz(4, 2); ObslugaPlanszy();
+            
+            wybor.UstPoz(4, 2); ObslugaPlanszy();
         }
 
         private void button28_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 3);
-            else wybor.UstPoz(4, 3); ObslugaPlanszy();
+           
+            wybor.UstPoz(4, 3); ObslugaPlanszy();
         }
 
         private void button29_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 4);
-            else wybor.UstPoz(4, 4); ObslugaPlanszy();
+           
+             wybor.UstPoz(4, 4); ObslugaPlanszy();
         }
 
         private void button30_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 5);
-            else wybor.UstPoz(4, 5); ObslugaPlanszy();
+           
+             wybor.UstPoz(4, 5); ObslugaPlanszy();
         }
 
         private void button31_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(4, 6);
-            else wybor.UstPoz(4, 6); ObslugaPlanszy();
+            
+            wybor.UstPoz(4, 6); ObslugaPlanszy();
         }
 
         private void button63_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 1);
-            else wybor.UstPoz(3, 1); ObslugaPlanszy();
+           
+            wybor.UstPoz(3, 1); ObslugaPlanszy();
         }
 
         private void button62_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 2);
-            else wybor.UstPoz(3, 2); ObslugaPlanszy();
+           
+           wybor.UstPoz(3, 2); ObslugaPlanszy();
         }
 
         private void button60_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 4);
-            else wybor.UstPoz(3, 4); ObslugaPlanszy();
+            wybor.UstPoz(3, 4); ObslugaPlanszy();
         }
 
         private void button59_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 5);
-            else wybor.UstPoz(3, 5); ObslugaPlanszy();
+           
+            wybor.UstPoz(3, 5); ObslugaPlanszy();
         }
 
         private void button57_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 7);
-            else wybor.UstPoz(3, 7); ObslugaPlanszy();
+            
+             wybor.UstPoz(3, 7); ObslugaPlanszy();
         }
 
         private void button56_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 0);
-            else wybor.UstPoz(2, 0); ObslugaPlanszy();
+            
+            wybor.UstPoz(2, 0); ObslugaPlanszy();
         }
 
         private void button49_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 1);
-            else wybor.UstPoz(2, 1); ObslugaPlanszy();
+           
+            wybor.UstPoz(2, 1); ObslugaPlanszy();
         }
 
         private void button51_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 3);
-            else wybor.UstPoz(2, 3); ObslugaPlanszy();
+           
+          wybor.UstPoz(2, 3); ObslugaPlanszy();
         }
 
         private void button52_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 4);
-            else wybor.UstPoz(2, 4); ObslugaPlanszy();
+           
+             wybor.UstPoz(2, 4); ObslugaPlanszy();
         }
 
         private void button53_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 5);
-            else wybor.UstPoz(2, 5); ObslugaPlanszy();
+           
+            wybor.UstPoz(2, 5); ObslugaPlanszy();
         }
 
         private void button54_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 6);
-            else wybor.UstPoz(2, 6); ObslugaPlanszy();
+            
+           wybor.UstPoz(2, 6); ObslugaPlanszy();
         }
 
         private void button55_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(2, 7);
-            else wybor.UstPoz(2, 7); ObslugaPlanszy();
+           
+           wybor.UstPoz(2, 7); ObslugaPlanszy();
         }
 
         private void button47_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 0);
-            else wybor.UstPoz(1, 0); ObslugaPlanszy();
+           
+         wybor.UstPoz(1, 0); ObslugaPlanszy();
         }
 
         private void button48_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 1);
-            else wybor.UstPoz(1, 1); ObslugaPlanszy();
+           
+          wybor.UstPoz(1, 1); ObslugaPlanszy();
         }
 
         private void button46_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 2);
-            else wybor.UstPoz(1, 2); ObslugaPlanszy();
+            
+             wybor.UstPoz(1, 2); ObslugaPlanszy();
         }
 
         private void button45_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 3);
-            else wybor.UstPoz(1, 3); ObslugaPlanszy();
+            
+            wybor.UstPoz(1, 3); ObslugaPlanszy();
         }
 
         private void button44_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 4);
-            else wybor.UstPoz(1, 4); ObslugaPlanszy();
+           
+            wybor.UstPoz(1, 4); ObslugaPlanszy();
         }
 
         private void button43_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 5);
-            else wybor.UstPoz(1, 5); ObslugaPlanszy();
+           
+             wybor.UstPoz(1, 5); ObslugaPlanszy();
         }
 
         private void button42_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 6);
-            else wybor.UstPoz(1, 6); ObslugaPlanszy();
+           
+            wybor.UstPoz(1, 6); ObslugaPlanszy();
         }
 
         private void button41_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(1, 7);
-            else wybor.UstPoz(1, 7); ObslugaPlanszy();
+          
+           wybor.UstPoz(1, 7); ObslugaPlanszy();
         }
 
         private void button39_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 1);
-            else wybor.UstPoz(0, 1); ObslugaPlanszy();
+           
+           wybor.UstPoz(0, 1); ObslugaPlanszy();
         }
 
         private void button38_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 2);
-            else wybor.UstPoz(0, 2); ObslugaPlanszy();
+            
+           wybor.UstPoz(0, 2); ObslugaPlanszy();
         }
 
         private void button37_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 3);
-            else wybor.UstPoz(0, 3); ObslugaPlanszy();
+           
+             wybor.UstPoz(0, 3); ObslugaPlanszy();
         }
 
         private void button36_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 4);
-            else wybor.UstPoz(0, 4); ObslugaPlanszy();
+          
+            wybor.UstPoz(0, 4); ObslugaPlanszy();
         }
 
         private void button35_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 5);
-            else wybor.UstPoz(0, 5); ObslugaPlanszy();
+           
+            wybor.UstPoz(0, 5); ObslugaPlanszy();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void button34_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(0, 6);
-            else wybor.UstPoz(0, 6); ObslugaPlanszy();
+            
+           wybor.UstPoz(0, 6); ObslugaPlanszy();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -679,8 +713,8 @@ namespace Warcaby
 
         private void button58_Click(object sender, EventArgs e)
         {
-            if (wybrano) cel.UstPoz(3, 6);
-            else wybor.UstPoz(3, 6); ObslugaPlanszy();
+           
+             wybor.UstPoz(3, 6); ObslugaPlanszy();
         }
     }
 }
