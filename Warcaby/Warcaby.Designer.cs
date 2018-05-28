@@ -101,6 +101,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.wynik1 = new System.Windows.Forms.Label();
+            this.wynik0 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -766,7 +768,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(593, 386);
+            this.checkBox1.Location = new System.Drawing.Point(593, 414);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(42, 21);
             this.checkBox1.TabIndex = 68;
@@ -777,7 +779,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(593, 218);
+            this.checkBox2.Location = new System.Drawing.Point(593, 258);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(42, 21);
             this.checkBox2.TabIndex = 69;
@@ -834,11 +836,33 @@
             this.label4.Text = "label4";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
+            // wynik1
+            // 
+            this.wynik1.AutoSize = true;
+            this.wynik1.Location = new System.Drawing.Point(589, 219);
+            this.wynik1.Name = "wynik1";
+            this.wynik1.Size = new System.Drawing.Size(46, 17);
+            this.wynik1.TabIndex = 75;
+            this.wynik1.Text = "label5";
+            this.wynik1.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // wynik0
+            // 
+            this.wynik0.AutoSize = true;
+            this.wynik0.Location = new System.Drawing.Point(589, 370);
+            this.wynik0.Name = "wynik0";
+            this.wynik0.Size = new System.Drawing.Size(46, 17);
+            this.wynik0.TabIndex = 76;
+            this.wynik0.Text = "label6";
+            this.wynik0.Click += new System.EventHandler(this.label6_Click);
+            // 
             // Warcaby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 511);
+            this.Controls.Add(this.wynik0);
+            this.Controls.Add(this.wynik1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -996,6 +1020,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label wynik1;
+        private System.Windows.Forms.Label wynik0;
     }
 }
 

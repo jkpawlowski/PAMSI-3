@@ -20,6 +20,13 @@ namespace Warcaby
         Pionek wybor;//ruszany pionek   
         Pionek w,c; //cel dla pionka
         
+        void Wynik()
+        {
+            wynik0.Text =gra.lp[0].ToString();
+            wynik1.Text = gra.lp[1].ToString();
+
+            if (gra.koniec) { trwa = false; label1.Text = "!!!Koniec gry!!!"; }
+        }
         void OdsPlansze()
         {
             void ResetObrazkow()
@@ -176,7 +183,7 @@ namespace Warcaby
 
             ResetObrazkow();
             UstawPionki();
-    
+            Wynik();
         }
         void Cel()    
         {
@@ -257,7 +264,7 @@ namespace Warcaby
             }
             if (opt == 3)//zatrzymanie
             {
-
+                trwa = true;
             }
             if (opt == 1)//przyciska start
             {
@@ -693,6 +700,16 @@ namespace Warcaby
         {
            
             wybor.UstPoz(0, 5); ObslugaPlanszy();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void label4_Click(object sender, EventArgs e)

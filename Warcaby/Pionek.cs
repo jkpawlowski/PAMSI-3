@@ -18,5 +18,15 @@ namespace Warcaby
         public Pionek(int g) { aktywny = true;   god = false; gracz = g; }
      public void  UstPoz(int X,int Y) { w = X;r = Y; }
      public void Zabij() { aktywny = false; }
+
+     public void Kopia(Pionek p)
+        {
+            aktywny = p.aktywny;
+            god = p.god;
+            gracz = p.gracz;
+            w = p.w;
+            r = p.r;
+        }
+
     }
 }

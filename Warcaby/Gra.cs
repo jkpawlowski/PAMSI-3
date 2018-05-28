@@ -15,47 +15,49 @@ namespace Warcaby
         public bool krolowa;
        public pole() { zajete = false; krolowa = false; }
     }
-        class Gra
-        {
-            public int kolej;//nr gracza ktory ma wykonac ruch
-            public bool seria;    
+    class Gra
+    {
+        public int kolej;//nr gracza ktory ma wykonac ruch
+        public bool seria;
+        public int[] lp;
+        public int wygrany;
+        public bool koniec;
 
+        public pole[][] plansza;
 
-            public pole[][] plansza;
+        //********pionki graczy***
+         public  Pionek[][] pionki;
 
-            //********pionki graczy***
-            private Pionek[][] pionki;
-        
-            //************************
+        //************************
         void WczytajPlansze()
-            { ///////pusta  plansza//////////
-                plansza = new pole[8][];
+        { ///////pusta  plansza//////////
+            plansza = new pole[8][];
 
-                 for (int i = 0; i <= 7; i++)
-                {
-                    plansza[i] = new pole[8];
-                    for (int j = 0; j <= 7; j++)
-                        plansza[i][j] = new pole();
-                }
-                ////////////////////////
-                for(int j=0;j<2;j++)
+            for (int i = 0; i <= 7; i++)
+            {
+                plansza[i] = new pole[8];
+                for (int j = 0; j <= 7; j++)
+                    plansza[i][j] = new pole();
+            }
+            ////////////////////////
+            for (int j = 0; j < 2; j++)
                 for (int i = 0; i <= 11; i++)
                 {
-                if (pionki[j][i].aktywny)
-                {    plansza[pionki[j][i].w][pionki[j][i].r].zajete = true;
-                     plansza[pionki[j][i].w][pionki[j][i].r].gracz = pionki[j][i].gracz;
-                     plansza[pionki[j][i].w][pionki[j][i].r].krolowa = pionki[j][i].god;
+                    if (pionki[j][i].aktywny)
+                    { plansza[pionki[j][i].w][pionki[j][i].r].zajete = true;
+                        plansza[pionki[j][i].w][pionki[j][i].r].gracz = pionki[j][i].gracz;
+                        plansza[pionki[j][i].w][pionki[j][i].r].krolowa = pionki[j][i].god;
                     }
-               
+
                 }
 
 
 
 
-            }
+        }
         void UstawPionki()
-            {
-                pionki = new Pionek[2][];
+        {
+            pionki = new Pionek[2][];
 
             pionki[0] = new Pionek[12];
             pionki[1] = new Pionek[12];
@@ -66,55 +68,63 @@ namespace Warcaby
             }
             int i = 0;
             pionki[i][0].UstPoz(0, 0);
-                pionki[i][1].UstPoz(0, 2);
-                pionki[i][2].UstPoz(0, 4);
-                pionki[i][3].UstPoz(0, 6);
-                pionki[i][4].UstPoz(1, 1);
-                pionki[i][5].UstPoz(1, 3);
-                pionki[i][6].UstPoz(1, 5);
-                pionki[i][7].UstPoz(1, 7);
-                pionki[i][8].UstPoz(2, 0);
-                pionki[i][9].UstPoz(2, 2);
-                pionki[i][10].UstPoz(2, 4);
-                pionki[i][11].UstPoz(2, 6);
+            pionki[i][1].UstPoz(0, 2);
+            pionki[i][2].UstPoz(0, 4);
+            pionki[i][3].UstPoz(0, 6);
+            pionki[i][4].UstPoz(1, 1);
+            pionki[i][5].UstPoz(1, 3);
+            pionki[i][6].UstPoz(1, 5);
+            pionki[i][7].UstPoz(1, 7);
+            pionki[i][8].UstPoz(2, 0);
+            pionki[i][9].UstPoz(2, 2);
+            pionki[i][10].UstPoz(2, 4);
+            pionki[i][11].UstPoz(2, 6);
 
-                i = 1;
-                pionki[i][0].UstPoz(5, 1);
-                pionki[i][1].UstPoz(5, 3);
-                pionki[i][2].UstPoz(5, 5);
-                pionki[i][3].UstPoz(5, 7);
-                pionki[i][4].UstPoz(6, 0);
-                pionki[i][5].UstPoz(6, 2);
-                pionki[i][6].UstPoz(6, 4);
-                pionki[i][7].UstPoz(6, 6);
-                pionki[i][8].UstPoz(7, 1);
-                pionki[i][9].UstPoz(7, 3);
-                pionki[i][10].UstPoz(7, 5);
-                pionki[i][11].UstPoz(7, 7);
+            i = 1;
+            pionki[i][0].UstPoz(5, 1);
+            pionki[i][1].UstPoz(5, 3);
+            pionki[i][2].UstPoz(5, 5);
+            pionki[i][3].UstPoz(5, 7);
+            pionki[i][4].UstPoz(6, 0);
+            pionki[i][5].UstPoz(6, 2);
+            pionki[i][6].UstPoz(6, 4);
+            pionki[i][7].UstPoz(6, 6);
+            pionki[i][8].UstPoz(7, 1);
+            pionki[i][9].UstPoz(7, 3);
+            pionki[i][10].UstPoz(7, 5);
+            pionki[i][11].UstPoz(7, 7);
 
 
-            }
+        }
         public Gra()
-            {
+        {
             UstawPionki();
             WczytajPlansze();
 
             kolej = 0;
             seria = false;
-                
-            }
+            koniec = false;
+            lp = new int[2];
+            lp[0] = 12;
+            lp[1] = 12;
 
+        }
+        void Wynik()
+        {
+            if (lp[0] == 0) { koniec = true; wygrany = 1; }
+            if (lp[1] == 0) { koniec = true; wygrany = 0; }
+        }
         void PrzKolej()
         {
             if (kolej == 0) { kolej = 1; }
             else kolej = 0;
-        
-        
+
+
         }
-         public   bool Wolny(Pionek p) //czy nie musi niczego bić
+        public bool Wolny(Pionek p) //czy nie musi niczego bić
         {
 
-            bool opt1,opt2,opt3,opt4;
+            bool opt1, opt2, opt3, opt4;
             opt1 = true;
             opt2 = true;
             opt3 = true;
@@ -147,13 +157,13 @@ namespace Warcaby
                                 return false;
             }
             if (p.god)
-                for (int i=0;i<=7;i++)
+                for (int i = 0; i <= 7; i++)
                 {
 
                     if ((p.w - i >= 2) && (p.r - i >= 2) && opt1)
                         if ((!plansza[p.w - i][p.r - i].zajete) || (plansza[p.w - i][p.r - i].gracz == p.gracz))
-                        if (plansza[p.w - i - 1][p.r - i - 1].zajete)
-                        if (plansza[p.w - i - 1][p.r - i - 1].gracz != p.gracz)
+                            if (plansza[p.w - i - 1][p.r - i - 1].zajete)
+                                if (plansza[p.w - i - 1][p.r - i - 1].gracz != p.gracz)
                                 {
                                     if (!plansza[p.w - i - 2][p.r - i - 2].zajete)
                                         return false;
@@ -193,47 +203,49 @@ namespace Warcaby
 
                 }
 
-        
+
             return true;
         }
-        bool Bij(int w,int r)
+        bool Bij(int w, int r)
         {
-            for(int j=0;j<=1;j++)
-            for (int i = 0; i <= 11; i++)
-                if ((pionki[j][i].aktywny) &&(pionki[j][i].w == w) && (pionki[j][i].r == r))
-                {
-                    pionki[j][i].Zabij();
-                    return true;
-                }
-          
+            for (int j = 0; j <= 1; j++)
+                for (int i = 0; i <= 11; i++)
+                    if ((pionki[j][i].aktywny) && (pionki[j][i].w == w) && (pionki[j][i].r == r))
+                    {
+                        pionki[j][i].Zabij();
+                        lp[j]--;
+                        return true;
+                    }
+
             return false;
         }
-        bool Moze(Pionek w,Pionek c)
+        bool Moze(Pionek w, Pionek c)
         {
             if (Math.Abs(w.w - c.w) == 1)
                 if (Math.Abs(w.r - c.r) == 1)
                     return true;
             if (Math.Abs(w.w - c.w) == 2)
                 if (Math.Abs(w.r - c.r) == 2)
-                    if (plansza[(w.w + c.w) / 2][(w.r + c.r) / 2].gracz != kolej)//sprawdza czy zjadzie bicie
-                    {
+                    if (plansza[(w.w + c.w) / 2][(w.r + c.r) / 2].zajete)
+                        if (plansza[(w.w + c.w) / 2][(w.r + c.r) / 2].gracz != kolej)//sprawdza czy zjadzie bicie         
+                        {
 
-                        Bij((w.w + c.w) / 2, (w.r + c.r) / 2);
-                        return true;
-                    }
+                            Bij((w.w + c.w) / 2, (w.r + c.r) / 2);
+                            return true;
+                        }
             if (w.god)
             {
-                
+
                 //ukos
-                int opt=0;
+                int opt = 0;
                 int bicie = 0;
 
                 //znajduje rodzaj ukosu
                 for (int i = 1; i <= Math.Abs(w.w - c.w); i++) {
-                    if ((w.w + i == c.w) && (w.r + i == c.r)) opt=1;
-                    if ((w.w + i == c.w) && (w.r - i == c.r)) opt=2;
-                    if ((w.w - i == c.w) && (w.r + i == c.r)) opt=3;
-                    if ((w.w - i == c.w) && (w.r - i == c.r)) opt=4;
+                    if ((w.w + i == c.w) && (w.r + i == c.r)) opt = 1;
+                    if ((w.w + i == c.w) && (w.r - i == c.r)) opt = 2;
+                    if ((w.w - i == c.w) && (w.r + i == c.r)) opt = 3;
+                    if ((w.w - i == c.w) && (w.r - i == c.r)) opt = 4;
                 }
                 if (opt == 0) return false;
 
@@ -258,7 +270,7 @@ namespace Warcaby
             }
             return false;
         }
-        bool DoPrzodu(Pionek w,Pionek c)
+        bool DoPrzodu(Pionek w, Pionek c)
         {
             if (w.god) return true;
             if (w.gracz == 0) if (c.w > w.w) return true;
@@ -266,9 +278,9 @@ namespace Warcaby
 
             return false;
         }
-        public bool Ruch(Pionek wybor,Pionek cel)
+        public bool Ruch(Pionek wybor, Pionek cel)
         {
-            
+
             ///////////////////////////////////////////////////////////
             if (plansza[cel.w][cel.r].zajete)//pole cel juz jest zajete
                 return false;
@@ -286,6 +298,7 @@ namespace Warcaby
                                 {
                                     PrzKolej(); //koniec ruchu jezeli nie ma mozliwosci bicia
                                     seria = false;
+                                    Wynik();
                                     return true;
                                 }
                         }
@@ -307,7 +320,7 @@ namespace Warcaby
                                             else
                                                 seria = true;
 
-
+                                            Wynik();
                                             return true;
                                         }
                             }
@@ -324,21 +337,21 @@ namespace Warcaby
                                 }
                                 else
                                     seria = true;
-
+                                Wynik();
                                 return true;
                             }
 
 
                         }
-                    
-                    
+
+
                 }
-            } 
+            }
             return false;
         }
-        bool ZnajdzPionek(Pionek wybor,Pionek[] pionki)
+        bool ZnajdzPionek(Pionek wybor, Pionek[] pionki)
         {
-            for(int i = 0; i <= 11; i++)
+            for (int i = 0; i <= 11; i++)
             {
                 if ((pionki[i].aktywny) && (wybor.r == pionki[i].r) && (wybor.w == pionki[i].w))
                     return true;
@@ -347,7 +360,7 @@ namespace Warcaby
         }
         bool Przesun(Pionek wybor, Pionek cel)
         {
-           
+
 
             for (int j = 0; j <= 11; j++)
             {
@@ -360,9 +373,9 @@ namespace Warcaby
                         Pionek c = cel;
                         Pionek bicie;
 
-                        
-                            bicie = new Pionek(1);
-                        
+
+                        bicie = new Pionek(1);
+
 
                         if (!((w.r == c.r) || (w.w == c.w)))
 
@@ -424,7 +437,7 @@ namespace Warcaby
 
                     pionki[wybor.gracz][j].UstPoz(cel.w, cel.r);
                     Awans(pionki[wybor.gracz][j]);
-                   
+
                     WczytajPlansze();
                     return true;
                 }
@@ -446,6 +459,28 @@ namespace Warcaby
                         p.god = true;
             return false;
         }
+
+      public  void Kopia(Gra g)
+        {
+            kolej = g.kolej;//nr gracza ktory ma wykonac ruch
+            seria = g.seria;
+            wygrany = g.wygrany;
+            koniec = g.koniec;
+            lp[0] = g.lp[0];
+            lp[1] = g.lp[1];
+
+            for (int j = 0; j <= 1; j++)
+                for (int i = 0; i <= 11; i++)
+                    pionki[j][i].Kopia(g.pionki[j][i]);
+
+            WczytajPlansze();                    
+    
         }
+
+
     }
+
+
+}
+    
 

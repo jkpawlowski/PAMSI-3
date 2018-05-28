@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graf.cs" />
+    <Compile Include="SI.cs" />
     <Compile Include="Warcaby.cs">
       <SubType>Form</SubType>
     </Compile>
