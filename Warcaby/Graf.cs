@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Warcaby
 {
+     
+        
+    
     class Wierz
     {
         public Gra gra;
@@ -57,8 +60,32 @@ namespace Warcaby
                 }
             }       
             return false;
-        } 
+        }
 
+        public ulong Kod()
+        {
+              long kod =0b000000000000000000000000000000000000000000000000000000000000000;
+
+            
+            foreach (Pionek p in gra.pionki[0])
+            {
+                if (p.aktywny)
+                    kod |=   (1<<( p.w*8+p.r));
+                
+            }
+
+            foreach (Pionek p in gra.pionki[1])
+            {
+                if (p.aktywny)
+                    kod |= (1 << (p.w * 8 + p.r));
+
+            }
+            if (kod > 0)
+                return Convert.ToUInt64(kod) + 9223372036854775807;
+            else
+                return Convert.ToUInt64(Math.Abs(kod));
+
+        }
     }
     class Kraw
     {
@@ -77,6 +104,7 @@ namespace Warcaby
             k = son;
         }
 
+        
 
     }
 
@@ -88,39 +116,57 @@ namespace Warcaby
         List<Wierz> lw;
         List<Kraw>  lk;
 
-        public TabHash(int st,Wierz w,Kraw k)
+        
+
+       const uint ST=40;
+
+        public TabHash()
         {
-            if (st > 0)
-                hash = new TabHash[10];
-            else
-
-                Dolacz(w, k);
-
-                
-            
+           
         }
 
-        bool 
-        bool Dolacz(Wierz w, Kraw k)
+       int Index(ulong kod,uint st)
         {
+            return Convert.ToInt32(kod % st);
+        }
+       public bool Dolacz( ulong kod, Wierz w, Kraw k, uint st= ST)
+        {
+            int ind = Index(kod, st);
+            if (st > 10) {
 
-            foreach (Wierz w_w in lw)
+                if (hash == null)
+                    hash = new TabHash[st];
+
+                if (hash[ind] == null)
+                    hash[ind] = new TabHash();
+
+                return hash[ind].Dolacz(kod, w, k, st - 1);
+            }
+            if (st == 10)
             {
-                if (!w_w.Czy_Rozne(w))
+               
+                if (lk == null)
+                    lk = new List<Kraw>();
+                if (lw == null)
+                    lw = new List<Wierz>();
+                else
+                foreach (Wierz w_w in lw)
+                {
+                    if (!w_w.Czy_Rozne(w))
 
-                    return false;
+                        return false;
+
+                }
 
             }
-
             lw.Add(w);
             lk.Add(k);
 
             return true;
 
-
-
-
         }
+    
+
     }
    class Graf
     {
@@ -129,14 +175,17 @@ namespace Warcaby
 
         List<Wierz> liscie;
 
+        TabHash tab;
+
         int gracz, wrog;
         int l;
 
-      public  Graf(int g)
+        public  Graf(int g)
         {
             W = new List<Wierz>();
             K = new List<Kraw>();
             liscie = new List<Wierz>();
+            tab = new TabHash();
 
             gracz = g;
             if (gracz == 0)
@@ -146,7 +195,7 @@ namespace Warcaby
 
             W.Add(new Wierz());
             l = 0;
-            BudujGraf(5);
+            BudujGraf(7);
 
 
         }
@@ -177,7 +226,8 @@ namespace Warcaby
             List<Wierz> lw  =new List<Wierz>();//nowe wierzcholki od ojca
            
             Pionek      p   =new Pionek(0);
-            
+
+            Wierz nowy_wierz = new Wierz(w);
 
 
             void p_cel(int y, int x)
@@ -193,18 +243,20 @@ namespace Warcaby
                         for(int x=0;x<8;x++)
                         {
                             p_cel(y,x);
-                            Wierz nowy_wierz = new Wierz(w);
+                            
                             if (nowy_wierz.Zagraj(t, p))
-                                {
+                            {
                                 
                                 Kraw nowa_kraw = new Kraw(w, nowy_wierz);
-                                if (Dolacz(nowy_wierz, nowa_kraw))
+                                if (tab.Dolacz(nowy_wierz.Kod(),nowy_wierz, nowa_kraw))
                                 {
                                     lw.Add(nowy_wierz);
-                                   
+                                    W.Add(nowy_wierz);
+                                    K.Add(nowa_kraw);
                                 }
-
-                            }   
+                                nowy_wierz = new Wierz(w);
+                            }
+                            
                         }
                     
 
