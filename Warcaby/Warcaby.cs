@@ -19,6 +19,9 @@ namespace Warcaby
         bool wybrano;
         Pionek wybor;//ruszany pionek   
         Pionek w,c; //cel dla pionka
+
+        SI si0;
+
         
         void Wynik()
         {
@@ -301,8 +304,8 @@ namespace Warcaby
             label3.Text = "Twoja kolej";
             label2.Text = "Czekaj";
             label4.Text = "";
-           
 
+            si0 = new SI(0);
         }
 
         private void button1_Click(object sender, EventArgs e)

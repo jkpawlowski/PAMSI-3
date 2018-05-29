@@ -9,5 +9,11 @@ namespace Warcaby
     class SI
     {
         Graf G;
+
+       public SI(int gracz)
+        {
+            G = new Graf(gracz);
+
+        }
     }
 }

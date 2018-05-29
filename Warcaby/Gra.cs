@@ -109,6 +109,17 @@ namespace Warcaby
             lp[1] = 12;
 
         }
+        public Gra(Gra g)
+        {
+
+            lp = new int[2];
+
+            Kopia(g);
+
+
+            WczytajPlansze();
+
+        }
         void Wynik()
         {
             if (lp[0] == 0) { koniec = true; wygrany = 1; }
@@ -469,11 +480,17 @@ namespace Warcaby
             lp[0] = g.lp[0];
             lp[1] = g.lp[1];
 
-            for (int j = 0; j <= 1; j++)
-                for (int i = 0; i <= 11; i++)
-                    pionki[j][i].Kopia(g.pionki[j][i]);
+            pionki = new Pionek[2][];
 
-            WczytajPlansze();                    
+            pionki[0] = new Pionek[12];
+            pionki[1] = new Pionek[12];
+
+            for (int j = 0; j <= 1; j++)
+            {       
+                for (int i = 0; i <= 11; i++)
+                    pionki[j][i]=new Pionek (g.pionki[j][i]);
+            }
+                           
     
         }
 

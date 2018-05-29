@@ -8,28 +8,56 @@ namespace Warcaby
 {
     class Wierz
     {
-       public Gra gra;
+        public Gra gra;
+
+
         
         public float h; //liczba strat
         public float g; //koszt odleglosc
         public float f; //h+g
 
+        public bool rozwiniety;
+
         Int32 index;
 
        public Wierz()
         {
-
+            gra = new Gra();
+            rozwiniety = false;
         }
 
         public Wierz(Wierz f)
         {
-            gra.Kopia(f.gra); //kopia gry od ojca
+            gra = new Gra(f.gra);
+            rozwiniety = false;
+           
         }
 
         public bool Zagraj(Pionek wybor,Pionek cel)
         {
             return gra.Ruch(wybor, cel);
         }
+
+        public bool Czy_Rozne(Wierz w)
+        {
+            for (int g = 0; g < 2; g++)
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    if (gra.pionki[g][i].aktywny == w.gra.pionki[g][i].aktywny)
+                    {
+                        if (gra.pionki[g][i].god != w.gra.pionki[g][i].god)
+                            return true;
+                        if ((gra.pionki[g][i].w != w.gra.pionki[g][i].w) || (gra.pionki[g][i].r != w.gra.pionki[g][i].r))
+                            return true;
+                    }
+                    else return true;
+
+
+                }
+            }       
+            return false;
+        } 
 
     }
     class Kraw
@@ -51,24 +79,103 @@ namespace Warcaby
 
 
     }
+
+    class TabHash
+    {
+        
+
+        TabHash[] hash;
+        List<Wierz> lw;
+        List<Kraw>  lk;
+
+        public TabHash(int st,Wierz w,Kraw k)
+        {
+            if (st > 0)
+                hash = new TabHash[10];
+            else
+
+                Dolacz(w, k);
+
+                
+            
+        }
+
+        bool 
+        bool Dolacz(Wierz w, Kraw k)
+        {
+
+            foreach (Wierz w_w in lw)
+            {
+                if (!w_w.Czy_Rozne(w))
+
+                    return false;
+
+            }
+
+            lw.Add(w);
+            lk.Add(k);
+
+            return true;
+
+
+
+
+        }
+    }
    class Graf
     {
         List<Wierz> W;
         List<Kraw>  K;
 
-        int gracz;
+        List<Wierz> liscie;
 
-      public  Graf()
+        int gracz, wrog;
+        int l;
+
+      public  Graf(int g)
         {
+            W = new List<Wierz>();
+            K = new List<Kraw>();
+            liscie = new List<Wierz>();
+
+            gracz = g;
+            if (gracz == 0)
+                wrog = 1;
+            else
+                wrog = 0;
+
             W.Add(new Wierz());
+            l = 0;
+            BudujGraf(5);
 
 
         }
 
-        void RozszerzWierz(Wierz w,int gracz)//robi dla w :-dzieci(zruchem) -dodaje do list
+        bool Dolacz(Wierz w,Kraw k)
+        {
+
+            foreach (Wierz w_w in W)
+            {
+                if (!w_w.Czy_Rozne(w))
+
+                    return false;
+
+            }
+            
+                    W.Add(w);
+                    K.Add(k);
+
+            return true;
+            
+           
+
+
+        }
+
+       List<Wierz> RozwinWierz(Wierz w,int gracz)//robi dla w :-dzieci(zruchem) -dodaje do list
         {
             List<Wierz> lw  =new List<Wierz>();//nowe wierzcholki od ojca
-            List<Kraw>  lk  =new List<Kraw>();  //nowe krawedzie od ojca
+           
             Pionek      p   =new Pionek(0);
             
 
@@ -79,7 +186,7 @@ namespace Warcaby
                 p.r = x;
             }
             
-            foreach(Pionek t in w.gra.pionki[gracz] )
+            foreach(Pionek t in w.gra.pionki[w.gra.kolej] )
             {
                 if (t.aktywny)
                     for(int y=0;y<8;y++)
@@ -89,33 +196,57 @@ namespace Warcaby
                             Wierz nowy_wierz = new Wierz(w);
                             if (nowy_wierz.Zagraj(t, p))
                                 {
-                                lw.Add(nowy_wierz);
+                                
                                 Kraw nowa_kraw = new Kraw(w, nowy_wierz);
-                                lk.Add(nowa_kraw);
-                                }   
+                                if (Dolacz(nowy_wierz, nowa_kraw))
+                                {
+                                    lw.Add(nowy_wierz);
+                                   
+                                }
+
+                            }   
                         }
                     
 
             }
 
-            W.AddRange(lw);
-            K.AddRange(lk);
+            w.rozwiniety = true;
+
+           
+           
+            //dodaje do lisci//czyli swierza nowa warstwa
+            return lw;
 
         }
-       void RozWarstwy(int i)
+       List<Wierz> RozwinWarstwe(List<Wierz> warstwa, int gracz)
         {
-            
-            while (i > 0)
+            List<Wierz> nowe_liscie = new List<Wierz>();
+
+            foreach (Wierz tmp in warstwa)
             {
-                
+                nowe_liscie.AddRange(RozwinWierz(tmp, gracz));
+            }
+            return nowe_liscie;
+            
+        }
+        
+     public void  BudujGraf(int r)
+        {
+            liscie.AddRange(W);
 
+            for (; r > 0; r--)
+            {
+                // ruch
+                List<Wierz> warstwa = new List<Wierz>();
+                warstwa.AddRange(liscie);
+                liscie = RozwinWarstwe(warstwa,gracz);
+                /////////////////////
+              
 
-
-
-
-                i--;
             }
         }
+
     
+
     }
 }
