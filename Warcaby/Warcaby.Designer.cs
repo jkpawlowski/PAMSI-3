@@ -103,6 +103,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.wynik1 = new System.Windows.Forms.Label();
             this.wynik0 = new System.Windows.Forms.Label();
+            this.button67 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -768,7 +769,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(593, 414);
+            this.checkBox1.Location = new System.Drawing.Point(606, 457);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(42, 21);
             this.checkBox1.TabIndex = 68;
@@ -779,7 +780,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(593, 258);
+            this.checkBox2.Location = new System.Drawing.Point(607, 330);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(42, 21);
             this.checkBox2.TabIndex = 69;
@@ -810,7 +811,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(526, 196);
+            this.label2.Location = new System.Drawing.Point(540, 268);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 17);
             this.label2.TabIndex = 72;
@@ -820,7 +821,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(526, 347);
+            this.label3.Location = new System.Drawing.Point(539, 390);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 17);
             this.label3.TabIndex = 73;
@@ -829,7 +830,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(589, 163);
+            this.label4.Location = new System.Drawing.Point(603, 235);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 17);
             this.label4.TabIndex = 74;
@@ -839,7 +840,7 @@
             // wynik1
             // 
             this.wynik1.AutoSize = true;
-            this.wynik1.Location = new System.Drawing.Point(589, 219);
+            this.wynik1.Location = new System.Drawing.Point(603, 291);
             this.wynik1.Name = "wynik1";
             this.wynik1.Size = new System.Drawing.Size(46, 17);
             this.wynik1.TabIndex = 75;
@@ -849,18 +850,29 @@
             // wynik0
             // 
             this.wynik0.AutoSize = true;
-            this.wynik0.Location = new System.Drawing.Point(589, 370);
+            this.wynik0.Location = new System.Drawing.Point(602, 413);
             this.wynik0.Name = "wynik0";
             this.wynik0.Size = new System.Drawing.Size(46, 17);
             this.wynik0.TabIndex = 76;
             this.wynik0.Text = "label6";
             this.wynik0.Click += new System.EventHandler(this.label6_Click);
             // 
+            // button67
+            // 
+            this.button67.Location = new System.Drawing.Point(542, 153);
+            this.button67.Name = "button67";
+            this.button67.Size = new System.Drawing.Size(153, 43);
+            this.button67.TabIndex = 77;
+            this.button67.Text = "Ruch komputera";
+            this.button67.UseVisualStyleBackColor = true;
+            this.button67.Click += new System.EventHandler(this.button67_Click);
+            // 
             // Warcaby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 511);
+            this.Controls.Add(this.button67);
             this.Controls.Add(this.wynik0);
             this.Controls.Add(this.wynik1);
             this.Controls.Add(this.label4);
@@ -1022,6 +1034,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label wynik1;
         private System.Windows.Forms.Label wynik0;
+        private System.Windows.Forms.Button button67;
     }
 }
 

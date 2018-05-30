@@ -10,10 +10,19 @@ namespace Warcaby
     {
         Graf G;
 
-       public SI(int gracz)
+       public SI(Gra g,int gracz)
         {
-            G = new Graf(gracz);
+            G = new Graf(g,gracz);
 
         }
+        public Pionek Wybor()
+        {
+            return G.wynik.p1;
+        }
+        public Pionek Cel()
+        {
+            return G.wynik.p2;
+        }
+
     }
 }

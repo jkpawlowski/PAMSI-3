@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Warcaby
 {
     public partial class Warcaby : Form
@@ -20,8 +21,10 @@ namespace Warcaby
         Pionek wybor;//ruszany pionek   
         Pionek w,c; //cel dla pionka
 
-        SI si0;
+        int kolej;
 
+        bool s0;
+        bool s1;
         
         void Wynik()
         {
@@ -184,6 +187,8 @@ namespace Warcaby
                 return null;
             }
 
+            kolej = gra.kolej;
+
             ResetObrazkow();
             UstawPionki();
             Wynik();
@@ -213,12 +218,15 @@ namespace Warcaby
                 else label4.Text += "bij";
            
         }
+
+         
+
         void ObslugaPlanszy(int opt=0)
         {
             
             if ((opt == 0)&&(trwa))
             {
-
+                
 
 
                 if ((gra.plansza[wybor.w][wybor.r].zajete)&& (!gra.seria))
@@ -258,12 +266,16 @@ namespace Warcaby
                         label2.Text = "Twoja kolej";
                         label3.Text = "Czekaj";
                     }
-                }}
+                         
+                }
+                }
+                
                 
             }
             if (opt == 2)//wznownienie
             {
                 wybrano = false;
+                Ruch_SI();
             }
             if (opt == 3)//zatrzymanie
             {
@@ -305,7 +317,34 @@ namespace Warcaby
             label2.Text = "Czekaj";
             label4.Text = "";
 
-            si0 = new SI(0);
+            s0 = false;
+            s1 = false;
+        }
+
+        void Ruch_SI()
+        {if(trwa)
+            if (s0&&gra.kolej==0)
+            {
+                
+                SI si = new SI(gra, 0);
+                wybor = si.Wybor();
+                if (!gra.seria) ObslugaPlanszy(0);
+                wybor = si.Cel();
+                ObslugaPlanszy(0);
+               
+            }
+            else if (s1&&gra.kolej==1)
+            {
+                
+                SI si = new SI(gra, 1);
+                wybor = si.Wybor();
+                if (!gra.seria) ObslugaPlanszy(0);
+                wybor = si.Cel();
+                ObslugaPlanszy(0);
+                
+            }
+            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -376,12 +415,23 @@ namespace Warcaby
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            ObslugaPlanszy();
+            if (checkBox2.Checked)
+            {
+                
+                s1 = true;
+                
+            }
+            else s1 = false;
+            
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            ObslugaPlanszy();
+            if (checkBox1.Checked)
+            {
+                s0 = true;
+            }
+            else s0 = false;
         }
 
         private void button66_Click(object sender, EventArgs e)
@@ -713,6 +763,11 @@ namespace Warcaby
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button67_Click(object sender, EventArgs e)
+        {
+            Ruch_SI();
         }
 
         private void label4_Click(object sender, EventArgs e)

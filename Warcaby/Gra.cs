@@ -19,7 +19,8 @@ namespace Warcaby
     {
         public int kolej;//nr gracza ktory ma wykonac ruch
         public bool seria;
-        public int[] lp;
+        public int[] lp; //liczba pionkow
+        public int[] lk; //liczba krolow
         public int wygrany;
         public bool koniec;
 
@@ -107,13 +108,20 @@ namespace Warcaby
             lp = new int[2];
             lp[0] = 12;
             lp[1] = 12;
+            lk = new int[2];
+            lk[0] = 0;
+            lk[1] = 0;
 
         }
         public Gra(Gra g)
         {
 
             lp = new int[2];
-
+            lp[0] = 12;
+            lp[1] = 12;
+            lk = new int[2];
+            lk[0] = 0;
+            lk[1] = 0;
             Kopia(g);
 
 
@@ -225,6 +233,8 @@ namespace Warcaby
                     {
                         pionki[j][i].Zabij();
                         lp[j]--;
+                        if (pionki[j][i].god) lk[j]--;
+
                         return true;
                     }
 
@@ -459,15 +469,21 @@ namespace Warcaby
         bool Awans(Pionek p)
         {
             if (!p.god)
-                if (Wolny(p))
+                if (!seria)
                     if (p.gracz == 0)
                     {
                         if (p.w == 7)
+                        {
                             p.god = true;
+                            lk[0]++;
+                        }
                     }
 
                     else if (p.w == 0)
+                    {
                         p.god = true;
+                        lk[1]++;
+                    }
             return false;
         }
 
