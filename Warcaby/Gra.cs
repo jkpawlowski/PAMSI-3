@@ -18,7 +18,10 @@ namespace Warcaby
     class Gra
     {
         public int kolej;//nr gracza ktory ma wykonac ruch
+
         public bool seria;
+        Pionek p_serii;
+
         public int[] lp; //liczba pionkow
         public int[] lk; //liczba krolow
         public int wygrany;
@@ -115,13 +118,12 @@ namespace Warcaby
         }
         public Gra(Gra g)
         {
+            
 
             lp = new int[2];
-            lp[0] = 12;
-            lp[1] = 12;
+            
             lk = new int[2];
-            lk[0] = 0;
-            lk[1] = 0;
+            
             Kopia(g);
 
 
@@ -310,6 +312,8 @@ namespace Warcaby
             {
                 if (plansza[wybor.w][wybor.r].gracz == kolej) //sprawdzenie czy moze wykonac ruch
                 {
+                    if (seria)
+                        if (wybor.w != p_serii.w || wybor.r != p_serii.r) return false;
 
                     if (Moze(wybor, cel))
                         if (Wolny(wybor))
@@ -339,8 +343,10 @@ namespace Warcaby
                                                 seria = false;
                                             }
                                             else
+                                            {
                                                 seria = true;
-
+                                                p_serii = wybor;
+                                            }
                                             Wynik();
                                             return true;
                                         }
@@ -357,7 +363,10 @@ namespace Warcaby
                                     seria = false;
                                 }
                                 else
+                                {
                                     seria = true;
+                                    p_serii = wybor;
+                                }
                                 Wynik();
                                 return true;
                             }
@@ -495,6 +504,11 @@ namespace Warcaby
             koniec = g.koniec;
             lp[0] = g.lp[0];
             lp[1] = g.lp[1];
+            lk[0] = g.lk[0];
+            lk[1] = g.lk[1];
+
+            if(seria)
+            p_serii =new Pionek( g.p_serii);
 
             pionki = new Pionek[2][];
 

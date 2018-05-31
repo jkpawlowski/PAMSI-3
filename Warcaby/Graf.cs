@@ -117,14 +117,14 @@ namespace Warcaby
     
    class Graf
     {
-       
+        const int warstw=4;
 
         List<Wierz> W;
         List<Kraw>  K;
 
         List<Wierz> liscie;
 
-        TabHash tab;
+      //  TabHash tab;
 
        const int BETA_MAX = 120;
        const int ALFA_MIN = -120;
@@ -132,7 +132,7 @@ namespace Warcaby
         public Kraw wynik;
 
         int gracz, wrog;
-        int l;
+        
 
         public  Graf(Gra stan,int g)
         {
@@ -154,9 +154,9 @@ namespace Warcaby
             W.Add(ww);
 
 
-            l = 0;
+            
 
-            BudujGraf(4);
+            BudujGraf(warstw);
 
             Wierz najlepsze;
             bool over = false;

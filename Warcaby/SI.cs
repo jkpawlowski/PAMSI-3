@@ -16,8 +16,9 @@ namespace Warcaby
 
         }
         public Pionek Wybor()
-        {
-            return G.wynik.p1;
+        {   if (G.wynik != null)
+                return G.wynik.p1;
+            else return null;
         }
         public Pionek Cel()
         {

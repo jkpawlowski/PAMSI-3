@@ -226,52 +226,56 @@ namespace Warcaby
             
             if ((opt == 0)&&(trwa))
             {
-                
 
-
-                if ((gra.plansza[wybor.w][wybor.r].zajete)&& (!gra.seria))
-                {   
-                    wybrano = true;
-                    Wyb();
-                    InfoWyb();
-                }
-                else { 
-                    InfoWyb();
-                if (wybrano)
+                if (Czy_nie_pat(gra.kolej))
                 {
-                    Cel();
 
-                    if (gra.Ruch(w, c))
-                        if (gra.seria)
-                        {
-                            w.r = c.r;
-                            w.w = c.w;
-                        }
-
-
-                    if (gra.seria)
+                    if ((gra.plansza[wybor.w][wybor.r].zajete) && (!gra.seria))
+                    {
                         wybrano = true;
-                    else
-                        wybrano = false;
-
-                    OdsPlansze();
-
-                    if (gra.kolej == 0)
-                    {
-                        label3.Text = "Twoja kolej";
-                        label2.Text = "Czekaj";
+                        Wyb();
+                        InfoWyb();
                     }
                     else
                     {
-                        label2.Text = "Twoja kolej";
-                        label3.Text = "Czekaj";
+                        InfoWyb();
+                        if (wybrano)
+                        {
+                            Cel();
+
+                            if (gra.Ruch(w, c))
+                                if (gra.seria)
+                                {
+                                    w.r = c.r;
+                                    w.w = c.w;
+                                }
+
+
+                            if (gra.seria)
+                                wybrano = true;
+                            else
+                                wybrano = false;
+
+                            OdsPlansze();
+
+                            if (gra.kolej == 0)
+                            {
+                                label3.Text = "Twoja kolej";
+                                label2.Text = "Czekaj";
+                            }
+                            else
+                            {
+                                label2.Text = "Twoja kolej";
+                                label3.Text = "Czekaj";
+                            }
+
+                        }
                     }
-                         
-                }
+
                 }
                 
-                
-            }
+
+                }
             if (opt == 2)//wznownienie
             {
                 wybrano = false;
@@ -323,9 +327,9 @@ namespace Warcaby
 
         void Ruch_SI()
         {if(trwa)
-            if (s0&&gra.kolej==0)
+            if (s0&&gra.kolej==0&&Czy_nie_pat(0))
             {
-                
+                  
                 SI si = new SI(gra, 0);
                 wybor = si.Wybor();
                 if (!gra.seria) ObslugaPlanszy(0);
@@ -333,7 +337,7 @@ namespace Warcaby
                 ObslugaPlanszy(0);
                
             }
-            else if (s1&&gra.kolej==1)
+            else if (s1&&gra.kolej==1&& Czy_nie_pat(1))
             {
                 
                 SI si = new SI(gra, 1);
@@ -347,6 +351,17 @@ namespace Warcaby
 
         }
 
+        bool Czy_nie_pat(int gracz)
+        {
+            SI si = new SI(gra, gracz);
+            if (si.Wybor() == null)
+            {
+                trwa = false;
+                label1.Text = "!!!Koniec gry!!!";
+                return false;
+            }
+            else return true;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             
