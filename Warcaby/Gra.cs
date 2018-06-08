@@ -19,18 +19,20 @@ namespace Warcaby
     {
         public int kolej;//nr gracza ktory ma wykonac ruch
 
-        public bool seria;
-        Pionek p_serii;
+        public bool seria; //seria bic
+        Pionek p_serii;    //pion ktory ma serie
+
+        int licznik_bez_bic;
 
         public int[] lp; //liczba pionkow
         public int[] lk; //liczba krolow
-        public int wygrany;
-        public bool koniec;
+        public int wygrany;//kto wygral
+        public bool koniec;//koniec rozgrywki
 
-        public pole[][] plansza;
+        public pole[][] plansza;//plancza pola
 
         //********pionki graczy***
-         public  Pionek[][] pionki;
+         public  Pionek[][] pionki;//pionki graczy
 
         //************************
         void WczytajPlansze()
@@ -105,6 +107,8 @@ namespace Warcaby
             UstawPionki();
             WczytajPlansze();
 
+            licznik_bez_bic = 15;
+
             kolej = 0;
             seria = false;
             koniec = false;
@@ -134,6 +138,7 @@ namespace Warcaby
         {
             if (lp[0] == 0) { koniec = true; wygrany = 1; }
             if (lp[1] == 0) { koniec = true; wygrany = 0; }
+            if (licznik_bez_bic <= 0) { wygrany = 2; koniec = true; }
         }
         void PrzKolej()
         {
@@ -152,26 +157,28 @@ namespace Warcaby
             opt4 = true;
 
             if (!p.god)
-            {
-                if ((p.w >= 2) && (p.r >= 2))
+            {   if(seria||p.gracz==1)
+                   if ((p.w >= 2) && (p.r >= 2))
                     if (plansza[p.w - 1][p.r - 1].zajete)
                         if (plansza[p.w - 1][p.r - 1].gracz != p.gracz)
                             if (!plansza[p.w - 2][p.r - 2].zajete)
                                 return false;
 
-                if ((p.w >= 2) && (p.r <= 5))
+                if (seria || p.gracz == 1)
+                    if ((p.w >= 2) && (p.r <= 5))
                     if (plansza[p.w - 1][p.r + 1].zajete)
                         if (plansza[p.w - 1][p.r + 1].gracz != p.gracz)
                             if (!plansza[p.w - 2][p.r + 2].zajete)
                                 return false;
 
-                if ((p.w <= 5) && (p.r >= 2))
+                if (seria || p.gracz == 0)
+                    if ((p.w <= 5) && (p.r >= 2))
                     if (plansza[p.w + 1][p.r - 1].zajete)
                         if (plansza[p.w + 1][p.r - 1].gracz != p.gracz)
                             if (!plansza[p.w + 2][p.r - 2].zajete)
                                 return false;
-
-                if ((p.w <= 5) && (p.r <= 5))
+                if (seria || p.gracz == 0)
+                    if ((p.w <= 5) && (p.r <= 5))
                     if (plansza[p.w + 1][p.r + 1].zajete)
                         if (plansza[p.w + 1][p.r + 1].gracz != p.gracz)
                             if (!plansza[p.w + 2][p.r + 2].zajete)
@@ -244,6 +251,8 @@ namespace Warcaby
         }
         bool Moze(Pionek w, Pionek c)
         {
+            if (!w.god&&!seria && !DoPrzodu(w, c)) return false; //dodane 
+
             if (Math.Abs(w.w - c.w) == 1)
                 if (Math.Abs(w.r - c.r) == 1)
                     return true;
@@ -254,6 +263,7 @@ namespace Warcaby
                         {
 
                             Bij((w.w + c.w) / 2, (w.r + c.r) / 2);
+                            seria = true;
                             return true;
                         }
             if (w.god)
@@ -460,13 +470,18 @@ namespace Warcaby
                             }
                             if (!Wolny(w)) if (bic != 1) return false;
                             if (Wolny(w)) if (bic != 0) return false;
-                            Bij(bicie.w, bicie.r);
+                            {
+                                Bij(bicie.w, bicie.r);
+                                licznik_bez_bic = 15;
+                            }
                         }
                         else if (!Wolny(wybor)) return false;
                     }
 
                     pionki[wybor.gracz][j].UstPoz(cel.w, cel.r);
                     Awans(pionki[wybor.gracz][j]);
+
+                    if (pionki[wybor.gracz][j].god) licznik_bez_bic--;
 
                     WczytajPlansze();
                     return true;
@@ -478,7 +493,7 @@ namespace Warcaby
         bool Awans(Pionek p)
         {
             if (!p.god)
-                if (!seria)
+                if (Wolny(p))
                     if (p.gracz == 0)
                     {
                         if (p.w == 7)
@@ -498,6 +513,8 @@ namespace Warcaby
 
       public  void Kopia(Gra g)
         {
+            licznik_bez_bic = g.licznik_bez_bic;
+
             kolej = g.kolej;//nr gracza ktory ma wykonac ruch
             seria = g.seria;
             wygrany = g.wygrany;

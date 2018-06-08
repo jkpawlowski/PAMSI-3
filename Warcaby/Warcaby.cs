@@ -13,27 +13,35 @@ namespace Warcaby
 {
     public partial class Warcaby : Form
     {
-        Gra gra;
-        Image pionek1, pionek2, krolowa1, krolowa2;
+        Gra gra;        //obiekt gry
+        Image pionek1, pionek2, krolowa1, krolowa2; //obrazki figur
 
-        bool trwa;
-        bool wybrano;
-        Pionek wybor;//ruszany pionek   
-        Pionek w,c; //cel dla pionka
+        bool trwa;      //trwa rozgrywka
+        bool wybrano;   //dokonano wyboru pionka
+        Pionek wybor;   //ruszany pionek   
+        Pionek w,c;     //cel dla pionka
 
-        int kolej;
+        int kolej;      //nr gracza ktorego jest kolej
 
-        bool s0;
-        bool s1;
+        bool s0;        //SI 1
+        bool s1;        //SI 2
         
-        void Wynik()
+        void Wynik()    //odswierzenie wyniku rozgrywki
         {
             wynik0.Text =gra.lp[0].ToString();
             wynik1.Text = gra.lp[1].ToString();
 
-            if (gra.koniec) { trwa = false; label1.Text = "!!!Koniec gry!!!"; }
+            if (gra.koniec) {
+                trwa = false;
+                label1.Text = "!!!Koniec gry!!!";
+
+                if(gra.wygrany==2)
+                    label1.Text = "!!!Remis!!!";
+
+
+            }
         }
-        void OdsPlansze()
+        void OdsPlansze()//odswierzenie ustawienia figur na planszy
         {
             void ResetObrazkow()
             {
@@ -193,7 +201,7 @@ namespace Warcaby
             UstawPionki();
             Wynik();
         }
-        void Cel()    
+        void Cel()      //skopiowanie celu
         {
 
             c.w = wybor.w;
@@ -202,14 +210,14 @@ namespace Warcaby
             c.god = gra.plansza[wybor.w][wybor.r].krolowa;
 
         }
-        void Wyb()
+        void Wyb()      //skopiowanie wyboru
         {
             w.w = wybor.w;
             w.r = wybor.r;
             w.gracz = gra.plansza[wybor.w][wybor.r].gracz;
             w.god = gra.plansza[wybor.w][wybor.r].krolowa;
         }
-        void InfoWyb()
+        void InfoWyb()  //informacje o pionku
         {
             label4.Text = "";
             wybor.gracz = gra.plansza[wybor.w][wybor.r].gracz;
@@ -221,10 +229,10 @@ namespace Warcaby
 
          
 
-        void ObslugaPlanszy(int opt=0)
+        void ObslugaPlanszy(int opt=0)  //obsluga opcji wyboru
         {
             
-            if ((opt == 0)&&(trwa))
+            if ((opt == 0)&&(trwa))//ruch
             {
 
                 if (Czy_nie_pat(gra.kolej))
@@ -279,7 +287,7 @@ namespace Warcaby
             if (opt == 2)//wznownienie
             {
                 wybrano = false;
-                Ruch_SI();
+                
             }
             if (opt == 3)//zatrzymanie
             {
@@ -301,7 +309,7 @@ namespace Warcaby
 
 
         }
-        public Warcaby()
+        public Warcaby()    
         {
             InitializeComponent();
             pionek1=Image.FromFile("graphics/p1.png"); 
@@ -325,7 +333,7 @@ namespace Warcaby
             s1 = false;
         }
 
-        void Ruch_SI()
+        void Ruch_SI() //ruch komputera
         {if(trwa)
             if (s0&&gra.kolej==0&&Czy_nie_pat(0))
             {
@@ -351,7 +359,7 @@ namespace Warcaby
 
         }
 
-        bool Czy_nie_pat(int gracz)
+        bool Czy_nie_pat(int gracz)//wykrywa sytuacje bez mozliwosci ruchu
         {
             SI si = new SI(gra, gracz);
             if (si.Wybor() == null)
@@ -783,6 +791,19 @@ namespace Warcaby
         private void button67_Click(object sender, EventArgs e)
         {
             Ruch_SI();
+        }
+
+        private void label5_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {   bool p;
+            int w;
+            p= Int32.TryParse(textBox1.Text,out w);
+            if (p)
+                if(w>0)Warstw.warstw = w;
         }
 
         private void label4_Click(object sender, EventArgs e)

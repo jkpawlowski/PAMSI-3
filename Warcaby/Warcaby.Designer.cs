@@ -104,6 +104,8 @@
             this.wynik1 = new System.Windows.Forms.Label();
             this.wynik0 = new System.Windows.Forms.Label();
             this.button67 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -780,7 +782,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(607, 330);
+            this.checkBox2.Location = new System.Drawing.Point(605, 343);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(42, 21);
             this.checkBox2.TabIndex = 69;
@@ -811,7 +813,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(540, 268);
+            this.label2.Location = new System.Drawing.Point(538, 281);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 17);
             this.label2.TabIndex = 72;
@@ -830,7 +832,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(603, 235);
+            this.label4.Location = new System.Drawing.Point(601, 241);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 17);
             this.label4.TabIndex = 74;
@@ -840,7 +842,7 @@
             // wynik1
             // 
             this.wynik1.AutoSize = true;
-            this.wynik1.Location = new System.Drawing.Point(603, 291);
+            this.wynik1.Location = new System.Drawing.Point(601, 304);
             this.wynik1.Name = "wynik1";
             this.wynik1.Size = new System.Drawing.Size(46, 17);
             this.wynik1.TabIndex = 75;
@@ -867,11 +869,31 @@
             this.button67.UseVisualStyleBackColor = true;
             this.button67.Click += new System.EventHandler(this.button67_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(631, 202);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(64, 22);
+            this.textBox1.TabIndex = 78;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(539, 205);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 17);
+            this.label5.TabIndex = 79;
+            this.label5.Text = "Głebokość";
+            this.label5.Click += new System.EventHandler(this.label5_Click_1);
+            // 
             // Warcaby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 511);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button67);
             this.Controls.Add(this.wynik0);
             this.Controls.Add(this.wynik1);
@@ -1035,6 +1057,8 @@
         private System.Windows.Forms.Label wynik1;
         private System.Windows.Forms.Label wynik0;
         private System.Windows.Forms.Button button67;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label5;
     }
 }
 

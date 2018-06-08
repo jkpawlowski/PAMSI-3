@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 
 namespace Warcaby
 {
-     
-        
-    
+
+    public static class Warstw { public static int warstw = 4; }
+
     class Wierz
     {
-        public Gra gra;
+        public Gra gra; //obiekt wytuacji gry
 
+       
+        public int waga; //wartosc heurystyczna
+
+        public bool rozwiniety;//czy ma juz ppotomkow
 
         
-        
-        public int waga; //h+g
-
-        public bool rozwiniety;
-
-        int index;
 
        public Wierz()
         {
@@ -36,7 +34,7 @@ namespace Warcaby
             waga = Waga(gra,g);
            
         }
-        int Waga(Gra g,int gracz)
+        int Waga(Gra g,int gracz)//oblicza wartosc funkcji heurystycznej
         {
             int przeciwnik=0;
             if (gracz == 0)  przeciwnik = 1;
@@ -45,12 +43,12 @@ namespace Warcaby
             return g.lp[gracz] - g.lp[przeciwnik]+ g.lk[gracz]*10 - g.lk[przeciwnik] * 10;
         }
 
-        public bool Zagraj(Pionek wybor,Pionek cel)
+        public bool Zagraj(Pionek wybor,Pionek cel)//wykonuje ruch w grze
         {
             return gra.Ruch(new Pionek(wybor),new Pionek( cel));
         }
 
-        public bool Czy_Rozne(Wierz w)
+        public bool Czy_Rozne(Wierz w)//wykrywa czy nie sa takie same wierzchloki
         {
             for (int g = 0; g < 2; g++)
             {
@@ -71,7 +69,7 @@ namespace Warcaby
             return false;
         }
 
-        public ulong Kod()
+        public ulong Kod() //kodowanie do tablicy
         {
             ulong kod = 1;
 
@@ -102,7 +100,7 @@ namespace Warcaby
         public Wierz p, k;
 
 
-        int index;
+        
 
         public Kraw(Wierz father,Wierz son)
         {
@@ -117,21 +115,21 @@ namespace Warcaby
     
    class Graf
     {
-        const int warstw=4;
+       // public int warstw=4;//glebokosc przeszukiwania
 
-        List<Wierz> W;
-        List<Kraw>  K;
+        List<Wierz> W;  //lista wierzcholkow
+        List<Kraw>  K;  //lista krawedzi
 
-        List<Wierz> liscie;
+        List<Wierz> liscie; //ostatnia powstala warstwa wierzcholkow
 
-      //  TabHash tab;
+      
 
        const int BETA_MAX = 120;
        const int ALFA_MIN = -120;
 
-        public Kraw wynik;
+        public Kraw wynik; //ostateczne rozwiazanie
 
-        int gracz, wrog;
+        int gracz, wrog;   //kto jest kim
         
 
         public  Graf(Gra stan,int g)
@@ -139,7 +137,7 @@ namespace Warcaby
             W = new List<Wierz>();
             K = new List<Kraw>();
             liscie = new List<Wierz>();
-          //  tab = new TabHash();
+        
 
             gracz = g;
             if (gracz == 0)
@@ -156,7 +154,7 @@ namespace Warcaby
 
             
 
-            BudujGraf(warstw);
+            BudujGraf(Warstw.warstw);
 
             Wierz najlepsze;
             bool over = false;
@@ -241,7 +239,7 @@ namespace Warcaby
                                 Kraw nowa_kraw = new Kraw(w, nowy_wierz);
                                 nowa_kraw.p1 = new Pionek(t);
                                 nowa_kraw.p2 = new Pionek(p);
-                                //if (tab.Dolacz(nowy_wierz.Kod(),nowy_wierz, nowa_kraw))
+                               
                                 {
                                     lw.Add(nowy_wierz);
                                     W.Add(nowy_wierz);
@@ -336,65 +334,8 @@ namespace Warcaby
         }
 
     }
-    class TabHash
-    {
+    
 
 
-        TabHash[] hash;
-        List<Wierz> lw;
-        List<Kraw> lk;
-
-
-
-        const uint ST = 40;
-
-        public TabHash()
-        {
-
-        }
-
-        int Index(ulong kod, uint st)
-        {
-            return Convert.ToInt32(kod % st);
-        }
-        public bool Dolacz(ulong kod, Wierz w, Kraw k, uint st = ST)
-        {
-            int ind = Index(kod, st);
-            if (st > 10)
-            {
-
-                if (hash == null)
-                    hash = new TabHash[st];
-
-                if (hash[ind] == null)
-                    hash[ind] = new TabHash();
-
-                return hash[ind].Dolacz(kod, w, k, st - 1);
-            }
-            if (st == 10)
-            {
-
-                if (lk == null)
-                    lk = new List<Kraw>();
-                if (lw == null)
-                    lw = new List<Wierz>();
-                else
-                    foreach (Wierz w_w in lw)
-                    {
-                        if (!w_w.Czy_Rozne(w))
-
-                            return false;
-
-                    }
-
-            }
-            lw.Add(w);
-            lk.Add(k);
-
-            return true;
-
-        }
-
-
-    }
+    
 }
